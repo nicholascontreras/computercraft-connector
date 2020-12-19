@@ -40,4 +40,4 @@ def run_server(environ, start_response):
         ("Content-Type", "text/plain"),
         ("Content-Length", str(len(bytes("Hello World!", 'utf-8'))))
     ])
-    return bytes("Hello World!", 'utf-8')
+    return [bytes("Hello World!", 'utf-8')]
