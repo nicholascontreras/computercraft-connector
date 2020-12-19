@@ -38,6 +38,6 @@ def run_server(environ, start_response):
 
     start_response("200 OK", [
         ("Content-Type", "text/plain"),
-        ("Content-Length", str(len(bytes("Hello World!"))))
+        ("Content-Length", str(len(bytes("Hello World!", 'utf-8'))))
     ])
-    return bytes("Hello World!")
+    return bytes("Hello World!", 'utf-8')
