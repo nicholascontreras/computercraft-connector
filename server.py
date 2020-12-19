@@ -1,17 +1,18 @@
-# import socket
+import socket
 
-# server_socket = socket.create_server(('', 80))
-# server_socket.listen()
+server_socket = socket.create_server(('', 5678))
+server_socket.listen()
 
 # minecraft_connection = None
 
-# while True:
+while True:
 
-#     print('waiting for connection')
-#     socket, address = server_socket.accept()
-#     print('connection received')
-#     socket.sendall(b'hello')
-#     socket.close()
+    print('waiting for socket connection')
+    socket, address = server_socket.accept()
+    print('socket connection received')
+    socket.sendall(b'hello')
+    socket.close()
+    print('socket connection closed')
 
     # if not minecraft_connection:
     #     minecraft_connection = socket
