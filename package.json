@@ -1,21 +1,25 @@
 {
-  "name": "computercraft-connector",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nicholascontreras/computercraft-connector.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/nicholascontreras/computercraft-connector/issues"
-  },
-  "homepage": "https://github.com/nicholascontreras/computercraft-connector#readme"
+    "name": "computercraft-connector",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/nicholascontreras/computercraft-connector.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/nicholascontreras/computercraft-connector/issues"
+    },
+    "homepage": "https://github.com/nicholascontreras/computercraft-connector#readme",
+    "dependencies": {
+        "ws": "^8.8.0"
+    }
 }
