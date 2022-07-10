@@ -1,1 +1,1 @@
-web: gunicorn server:run_server
+web: npm start
