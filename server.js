@@ -1,4 +1,5 @@
-import { createServer } from "net";
+// import { createServer } from "net";
+import { createServer } from "http"
 import { WebSocketServer } from "ws";
 
 const port = process.env.PORT || 3000;
@@ -6,24 +7,26 @@ const port = process.env.PORT || 3000;
 let computercraftSocket = false;
 let pendingResponses = {};
 
-const netServer = createServer((socket) => {
+// const netServer = createServer((socket) => {
 
-    if (!computercraftSocket) {
-        socket.destroy();
-        return;
-    }
+//     if (!computercraftSocket) {
+//         socket.destroy();
+//         return;
+//     }
 
-    socket.setEncoding("utf8")
-    socket.on("data", (data) => {
-        const requestID = Date.now() + Math.random();
-        pendingResponses[requestID] = socket;
-        const requestText = requestID + "\r\n" + data.toString();
+//     socket.setEncoding("utf8")
+//     socket.on("data", (data) => {
+//         const requestID = Date.now() + Math.random();
+//         pendingResponses[requestID] = socket;
+//         const requestText = requestID + "\r\n" + data.toString();
 
-        console.log(requestText);
+//         console.log(requestText);
 
-        computercraftSocket.send(requestText);
-    });
-});
+//         computercraftSocket.send(requestText);
+//     });
+// });
+
+const netServer = createServer((req, res) => {});
 
 netServer.listen(port, () => {
     console.log(`Server running on port ${port}`);
