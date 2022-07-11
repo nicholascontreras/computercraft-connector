@@ -27,8 +27,11 @@ const waitForRequestConnections = () => {
 
         socket.setEncoding("utf8");
         socket.on("data", (data) => {
-            const requestID = Date.now() + "" + Math.random();
+            // const requestID = Date.now() + "" + Math.random();
+            const requestID = "cheese";
             pendingResponses[requestID] = socket;
+            console.log("Pending added?");
+            console.log("cheese" in pendingResponses);
             const requestText = requestID + "\r\n" + data.toString();
 
             console.log(requestText);
