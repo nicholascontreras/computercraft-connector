@@ -25,7 +25,7 @@ const waitForRequestConnections = () => {
 
         console.log("Websocket connection intact");
 
-        socket.setEncoding("utf8")
+        socket.setEncoding("utf8");
         socket.on("data", (data) => {
             const requestID = Date.now() + Math.random();
             pendingResponses[requestID] = socket;
@@ -61,7 +61,8 @@ const establishWebsocketConnection = () => {
         computercraftSocket = ws;
         computercraftSocket.on("message", (data) => {
             console.log("Received response from websocket");
-            console.log(data);
+            data.setEncoding("utf8");
+            console.log(data.toString());
 
             const requestID = data.substring(0, data.indexOf("\r\n"));
             const requestText = data.substring(data.indexOf("\r\n") + 2);
