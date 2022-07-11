@@ -26,7 +26,7 @@ let pendingResponses = {};
 //     });
 // });
 
-let httpServer = http.createServer();
+let httpServer = http.createServer((req, res) => {});
 
 // netServer.listen(port, () => {
 //     console.log(`Server running on port ${port}`);
@@ -48,7 +48,7 @@ wsServer.on("connection", (ws) => {
         });
         computercraftSocket.on("close", () => {
             computercraftSocket = false;
-            httpServer = http.createServer();
+            httpServer = http.createServer((req, res) => {});
         })
     }
 });
