@@ -27,6 +27,7 @@ const waitForRequestConnections = () => {
 
         socket.setEncoding("utf8")
         socket.on("data", (data) => {
+            console.log("Incoming data!");
             const requestID = Date.now() + Math.random();
             pendingResponses[requestID] = socket;
             const requestText = requestID + "\r\n" + data.toString();
