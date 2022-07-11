@@ -27,7 +27,7 @@ const waitForRequestConnections = () => {
 
         socket.setEncoding("utf8");
         socket.on("data", (data) => {
-            const requestID = Date.now() + Math.random();
+            const requestID = Date.now() + "" + Math.random();
             pendingResponses[requestID] = socket;
             const requestText = requestID + "\r\n" + data.toString();
 
@@ -68,6 +68,7 @@ const establishWebsocketConnection = () => {
             const responseText = dataString.substring(dataString.indexOf("\r\n") + 2);
 
             console.log("Request ID: " + requestID);
+            console.log(pendingResponses);
 
             pendingResponses[requestID].end(responseText);
             pendingResponses.delete(requestID);
