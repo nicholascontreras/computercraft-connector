@@ -71,6 +71,7 @@ const establishWebsocketConnection = () => {
             const responseText = dataString.substring(dataString.indexOf("\r\n") + 2);
 
             console.log("Request ID: " + requestID);
+            console.log("length: " + requestID.length);
             console.log("The word  : cheese")
             console.log("Is request cheese?");
             console.log(requestID == "cheese");
