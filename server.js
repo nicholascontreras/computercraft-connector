@@ -60,7 +60,9 @@ const establishWebsocketConnection = () => {
 
         computercraftSocket = ws;
         computercraftSocket.on("message", (data) => {
-            console.log("Received response from websocket")
+            console.log("Received response from websocket");
+            console.log(data);
+
             const requestID = data.substring(0, data.indexOf("\r\n"));
             const requestText = data.substring(data.indexOf("\r\n") + 2);
 
