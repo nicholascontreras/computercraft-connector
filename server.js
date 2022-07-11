@@ -69,6 +69,7 @@ const establishWebsocketConnection = () => {
 
             console.log("Request ID: " + requestID);
             console.log(pendingResponses);
+            console.log(requestID in pendingResponses);
             console.log(pendingResponses[requestID]);
 
             pendingResponses[requestID].end(responseText);
