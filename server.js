@@ -28,11 +28,11 @@ let pendingResponses = {};
 
 let httpServer = http.createServer();
 
-netServer.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
+// netServer.listen(port, () => {
+//     console.log(`Server running on port ${port}`);
+// });
 
-const wsServer = new WebSocketServer({ server: netServer });
+const wsServer = new WebSocketServer({ server: httpServer });
 wsServer.on("connection", (ws) => {
     console.log("Websocket connection!");
     httpServer.close();
