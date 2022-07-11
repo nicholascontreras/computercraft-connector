@@ -1,5 +1,5 @@
-// import { createServer } from "net";
-import { createServer } from "http"
+import * as net from "net";
+import * as http from "http";
 import { WebSocketServer } from "ws";
 
 const port = process.env.PORT || 3000;
@@ -26,7 +26,7 @@ let pendingResponses = {};
 //     });
 // });
 
-const netServer = createServer((req, res) => {});
+let httpServer = http.createServer();
 
 netServer.listen(port, () => {
     console.log(`Server running on port ${port}`);
@@ -35,6 +35,7 @@ netServer.listen(port, () => {
 const wsServer = new WebSocketServer({ server: netServer });
 wsServer.on("connection", (ws) => {
     console.log("Websocket connection!");
+    httpServer.close();
 
     if (!computercraftSocket) {
         computercraftSocket = ws;
@@ -47,6 +48,7 @@ wsServer.on("connection", (ws) => {
         });
         computercraftSocket.on("close", () => {
             computercraftSocket = false;
+            httpServer = http.createServer();
         })
     }
 });
