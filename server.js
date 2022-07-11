@@ -61,7 +61,6 @@ const establishWebsocketConnection = () => {
         computercraftSocket = ws;
         computercraftSocket.on("message", (data) => {
             console.log("Received response from websocket");
-            data.setEncoding("utf8");
             console.log(data.toString());
 
             const requestID = data.substring(0, data.indexOf("\r\n"));
