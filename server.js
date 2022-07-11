@@ -27,11 +27,8 @@ const waitForRequestConnections = () => {
 
         socket.setEncoding("utf8");
         socket.on("data", (data) => {
-            // const requestID = Date.now() + "" + Math.random();
-            const requestID = "cheese";
+            const requestID = Date.now() + "" + Math.random();
             pendingResponses[requestID] = socket;
-            console.log("Pending added?");
-            console.log("cheese" in pendingResponses);
             const requestText = requestID + "\r\n" + data.toString();
 
             console.log(requestText);
@@ -71,16 +68,9 @@ const establishWebsocketConnection = () => {
             const responseText = dataString.substring(dataString.indexOf("\r\n") + 2);
 
             console.log("Request ID: " + requestID);
-            console.log("length: " + requestID.length);
-            console.log("The word  : cheese")
-            console.log("Is request cheese?");
-            console.log(requestID == "cheese");
-            console.log(pendingResponses);
-            console.log(requestID in pendingResponses);
-            console.log(pendingResponses[requestID]);
 
             pendingResponses[requestID].end(responseText);
-            pendingResponses.delete(requestID);
+            delete pendingResponses[requestID];
 
             console.log("Replied with websocket response");
         });
