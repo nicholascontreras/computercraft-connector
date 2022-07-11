@@ -82,4 +82,10 @@ const establishWebsocketConnection = () => {
     });
 };
 
+setInterval(() => {
+    if (computercraftSocket) {
+        computercraftSocket.send("KA");
+    }
+}, 30000)
+
 establishWebsocketConnection();
