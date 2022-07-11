@@ -7,6 +7,9 @@ const port = process.env.PORT || 3000;
 let computercraftSocket = false;
 let pendingResponses = {};
 
+let httpServer = false;
+let netServer = false;
+
 // const netServer = createServer((socket) => {
 
 //     if (!computercraftSocket) {
@@ -26,18 +29,20 @@ let pendingResponses = {};
 //     });
 // });
 
-let httpServer = http.createServer((req, res) => {});
+const establishWebsocketConnection = () => {
+    httpServer = http.createServer();
+    httpServer.listen(port, () => {
+        console.log(`HTTP server running on port ${port}`);
+    });
 
-// netServer.listen(port, () => {
-//     console.log(`Server running on port ${port}`);
-// });
+    const wsServer = new WebSocketServer({ server: httpServer });
+    wsServer.on("connection", (ws) => {
+        console.log("Websocket connection!");
 
-const wsServer = new WebSocketServer({ server: httpServer });
-wsServer.on("connection", (ws) => {
-    console.log("Websocket connection!");
-    httpServer.close();
+        wsServer.close();
+        httpServer.close();
+        httpServer = false;
 
-    if (!computercraftSocket) {
         computercraftSocket = ws;
         computercraftSocket.on("message", (data) => {
             const requestID = data.substring(0, data.indexOf("\r\n"));
@@ -48,7 +53,13 @@ wsServer.on("connection", (ws) => {
         });
         computercraftSocket.on("close", () => {
             computercraftSocket = false;
-            httpServer = http.createServer((req, res) => {});
+            establishWebsocketConnection();
         })
-    }
-});
+    });
+};
+
+establishWebsocketConnection();
+
+// netServer.listen(port, () => {
+//     console.log(`Server running on port ${port}`);
+// });
