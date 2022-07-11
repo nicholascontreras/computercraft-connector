@@ -12,6 +12,8 @@ let netServer = false;
 
 const waitForRequestConnections = () => {
     netServer = net.createServer((socket) => {
+        console.log("Incoming request socket");
+
         if (!computercraftSocket) {
             console.log("Websocket connection lost!");
             socket.destroy();
@@ -20,6 +22,8 @@ const waitForRequestConnections = () => {
             establishWebsocketConnection();
             return;
         }
+
+        console.log("Websocket connection intact");
 
         socket.setEncoding("utf8")
         socket.on("data", (data) => {
