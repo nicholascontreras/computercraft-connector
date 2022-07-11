@@ -10,38 +10,48 @@ let pendingResponses = {};
 let httpServer = false;
 let netServer = false;
 
-// const netServer = createServer((socket) => {
+const waitForRequestConnections = () => {
+    netServer = net.createServer((socket) => {
+        if (!computercraftSocket) {
+            console.log("Websocket connection lost!");
+            socket.destroy();
+            netServer.close();
+            netServer = false;
+            establishWebsocketConnection();
+            return;
+        }
 
-//     if (!computercraftSocket) {
-//         socket.destroy();
-//         return;
-//     }
+        socket.setEncoding("utf8")
+        socket.on("data", (data) => {
+            const requestID = Date.now() + Math.random();
+            pendingResponses[requestID] = socket;
+            const requestText = requestID + "\r\n" + data.toString();
 
-//     socket.setEncoding("utf8")
-//     socket.on("data", (data) => {
-//         const requestID = Date.now() + Math.random();
-//         pendingResponses[requestID] = socket;
-//         const requestText = requestID + "\r\n" + data.toString();
+            console.log(requestText);
 
-//         console.log(requestText);
-
-//         computercraftSocket.send(requestText);
-//     });
-// });
+            computercraftSocket.send(requestText);
+        });
+    });
+    netServer.listen(port, () => {
+        console.log("Request server started");
+    });
+};
 
 const establishWebsocketConnection = () => {
     httpServer = http.createServer();
     httpServer.listen(port, () => {
-        console.log(`HTTP server running on port ${port}`);
+        console.log("Websocket server started");
     });
 
     const wsServer = new WebSocketServer({ server: httpServer });
     wsServer.on("connection", (ws) => {
-        console.log("Websocket connection!");
+        console.log("Websocket connection established!");
 
         wsServer.close();
         httpServer.close();
         httpServer = false;
+
+        console.log("Websocket server shut down");
 
         computercraftSocket = ws;
         computercraftSocket.on("message", (data) => {
@@ -53,13 +63,10 @@ const establishWebsocketConnection = () => {
         });
         computercraftSocket.on("close", () => {
             computercraftSocket = false;
-            establishWebsocketConnection();
-        })
+        });
+
+        waitForRequestConnections();
     });
 };
 
 establishWebsocketConnection();
-
-// netServer.listen(port, () => {
-//     console.log(`Server running on port ${port}`);
-// });
