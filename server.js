@@ -27,7 +27,6 @@ const waitForRequestConnections = () => {
 
         socket.setEncoding("utf8")
         socket.on("data", (data) => {
-            console.log("Incoming data!");
             const requestID = Date.now() + Math.random();
             pendingResponses[requestID] = socket;
             const requestText = requestID + "\r\n" + data.toString();
@@ -35,6 +34,7 @@ const waitForRequestConnections = () => {
             console.log(requestText);
 
             computercraftSocket.send(requestText);
+            console.log("Request forwarded to websocket");
         });
     });
     netServer.listen(port, () => {
@@ -60,11 +60,16 @@ const establishWebsocketConnection = () => {
 
         computercraftSocket = ws;
         computercraftSocket.on("message", (data) => {
+            console.log("Received response from websocket")
             const requestID = data.substring(0, data.indexOf("\r\n"));
             const requestText = data.substring(data.indexOf("\r\n") + 2);
 
+            console.log("Request ID: " + requestID);
+
             pendingResponses[requestID].end(requestText);
             pendingResponses.delete(requestID);
+
+            console.log("Replied with websocket response");
         });
         computercraftSocket.on("close", () => {
             computercraftSocket = false;
