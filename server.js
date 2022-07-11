@@ -61,14 +61,15 @@ const establishWebsocketConnection = () => {
         computercraftSocket = ws;
         computercraftSocket.on("message", (data) => {
             console.log("Received response from websocket");
-            console.log(data.toString());
 
-            const requestID = data.substring(0, data.indexOf("\r\n"));
-            const requestText = data.substring(data.indexOf("\r\n") + 2);
+            const dataString = data.toString();
+
+            const requestID = dataString.substring(0, dataString.indexOf("\r\n"));
+            const responseText = dataString.substring(dataString.indexOf("\r\n") + 2);
 
             console.log("Request ID: " + requestID);
 
-            pendingResponses[requestID].end(requestText);
+            pendingResponses[requestID].end(responseText);
             pendingResponses.delete(requestID);
 
             console.log("Replied with websocket response");
