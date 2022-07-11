@@ -16,7 +16,7 @@ const waitForRequestConnections = () => {
 
         if (!computercraftSocket) {
             console.log("Websocket connection lost!");
-            socket.end("HTTP/1.1 200\r\n\r\noffline rn ligma ballz")
+            socket.destroy();
             netServer.close();
             netServer = false;
             establishWebsocketConnection();
@@ -86,6 +86,6 @@ setInterval(() => {
     if (computercraftSocket) {
         computercraftSocket.send("KA");
     }
-}, 30000);
+}, 30000)
 
 establishWebsocketConnection();
